@@ -1,259 +1,81 @@
-/* ==========================================
-   KADROLLI FINANCIAL SERVICES
-   PREMIUM WEBSITE SCRIPT
-========================================== */
+document.addEventListener('DOMContentLoaded', () => {
 
-document.addEventListener("DOMContentLoaded", () => {
+  // --- STICKY NAV ---
+  const navbar = document.getElementById('navbar');
+  const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
-    initCounters();
-    initTestimonialSlider();
-    initFAQ();
-    initSmoothScroll();
-    initNavbarScroll();
+  // --- HAMBURGER MENU ---
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    const [s0, s1, s2] = hamburger.querySelectorAll('span');
+    s0.style.transform = open ? 'rotate(45deg) translate(5px,5px)' : '';
+    s1.style.opacity   = open ? '0' : '1';
+    s2.style.transform = open ? 'rotate(-45deg) translate(5px,-5px)' : '';
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      hamburger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+    });
+  });
+
+  // --- FAQ ACCORDION ---
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq-question').forEach(b => {
+        b.setAttribute('aria-expanded', 'false');
+        b.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        btn.nextElementSibling.classList.add('open');
+      }
+    });
+  });
+
+  // --- SCROLL REVEAL (IntersectionObserver) ---
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = parseInt(entry.target.dataset.revealDelay || 0);
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+  // Stagger grid children
+  document.querySelectorAll('.services-grid .service-card').forEach((el, i) => { el.dataset.revealDelay = i * 70; });
+  document.querySelectorAll('.why-grid .why-card').forEach((el, i)          => { el.dataset.revealDelay = i * 80; });
+  document.querySelectorAll('.process-step').forEach((el, i)                => { el.dataset.revealDelay = i * 100; });
+  document.querySelectorAll('.achievement-small').forEach((el, i)           => { el.dataset.revealDelay = i * 80; });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // --- SMOOTH SCROLL WITH NAV OFFSET ---
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id === '#') return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+    });
+  });
+
+  // --- LOGO FALLBACK ---
+  document.querySelectorAll('.nav-logo-img').forEach(img => {
+    img.addEventListener('error', () => {
+      img.style.display = 'none';
+      const fallback = img.nextElementSibling;
+      if (fallback) fallback.style.display = 'inline';
+    });
+  });
 
 });
-
-/* ==========================================
-   COUNTER ANIMATION
-========================================== */
-
-function initCounters() {
-
-    const counters = document.querySelectorAll('.counter');
-
-    counters.forEach(counter => {
-
-        const target = +counter.getAttribute('data-target');
-
-        let current = 0;
-
-        const increment = target / 100;
-
-        const updateCounter = () => {
-
-            current += increment;
-
-            if(current < target){
-
-                counter.innerText = Math.ceil(current);
-
-                requestAnimationFrame(updateCounter);
-
-            }else{
-
-                counter.innerText = target;
-
-            }
-
-        };
-
-        updateCounter();
-
-    });
-
-}
-
-/* ==========================================
-   TESTIMONIAL SLIDER
-========================================== */
-
-function initTestimonialSlider(){
-
-    const track = document.querySelector('.testimonial-track');
-
-    if(!track) return;
-
-    let currentIndex = 0;
-
-    const cards = document.querySelectorAll('.testimonial-card');
-
-    const totalCards = cards.length;
-
-    setInterval(() => {
-
-        currentIndex++;
-
-        if(currentIndex >= totalCards){
-
-            currentIndex = 0;
-
-        }
-
-        const cardWidth = cards[0].offsetWidth + 25;
-
-        track.style.transform =
-        `translateX(-${currentIndex * cardWidth}px)`;
-
-    },5000);
-
-}
-
-/* ==========================================
-   FAQ ACCORDION
-========================================== */
-
-function initFAQ(){
-
-    const questions =
-    document.querySelectorAll('.faq-question');
-
-    questions.forEach(question => {
-
-        question.addEventListener('click', () => {
-
-            const answer =
-            question.nextElementSibling;
-
-            if(answer.style.display === "block"){
-
-                answer.style.display = "none";
-
-            }else{
-
-                answer.style.display = "block";
-
-            }
-
-        });
-
-    });
-
-}
-
-/* ==========================================
-   SMOOTH SCROLL
-========================================== */
-
-function initSmoothScroll(){
-
-    const links =
-    document.querySelectorAll('a[href^="#"]');
-
-    links.forEach(link => {
-
-        link.addEventListener('click', function(e){
-
-            e.preventDefault();
-
-            const target =
-            document.querySelector(this.getAttribute('href'));
-
-            if(target){
-
-                target.scrollIntoView({
-
-                    behavior:'smooth'
-
-                });
-
-            }
-
-        });
-
-    });
-
-}
-
-/* ==========================================
-   NAVBAR SCROLL EFFECT
-========================================== */
-
-function initNavbarScroll(){
-
-    const header =
-    document.querySelector('.header');
-
-    if(!header) return;
-
-    window.addEventListener('scroll', () => {
-
-        if(window.scrollY > 50){
-
-            header.style.boxShadow =
-            '0 10px 30px rgba(0,0,0,.08)';
-
-        }else{
-
-            header.style.boxShadow =
-            '0 2px 10px rgba(0,0,0,.05)';
-
-        }
-
-    });
-
-}
-
-/* ==========================================
-   MOBILE MENU
-========================================== */
-
-const menuBtn =
-document.querySelector('.menu-toggle');
-
-const navLinks =
-document.querySelector('.nav-links');
-
-if(menuBtn){
-
-    menuBtn.addEventListener('click', () => {
-
-        navLinks.classList.toggle('active');
-
-    });
-
-}
-
-/* ==========================================
-   FUTURE CALCULATORS SUPPORT
-========================================== */
-
-function calculateSIP(
-monthlyInvestment,
-annualReturn,
-years
-){
-
-    const r = annualReturn / 12 / 100;
-
-    const n = years * 12;
-
-    const futureValue =
-    monthlyInvestment *
-    (((Math.pow(1+r,n)-1)/r)*(1+r));
-
-    return futureValue.toFixed(0);
-
-}
-
-function calculateLumpsum(
-investment,
-annualReturn,
-years
-){
-
-    const futureValue =
-    investment *
-    Math.pow(
-        (1+annualReturn/100),
-        years
-    );
-
-    return futureValue.toFixed(0);
-
-}
-
-/* ==========================================
-   GOOGLE ANALYTICS READY
-========================================== */
-
-function trackEvent(
-eventName
-){
-
-    if(typeof gtag !== 'undefined'){
-
-        gtag('event',eventName);
-
-    }
-
-}
