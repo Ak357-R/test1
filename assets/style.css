@@ -1081,99 +1081,119 @@ textarea.form-control{
 }
 
 }
+/* =====================================================
+MOBILE OPTIMIZATION - KADROLLI FINANCIAL SERVICES
+===================================================== */
 
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media(max-width:768px){
-
-.section{
-    padding:70px 0;
-}
-
-.hero-content h1{
-    font-size:2.3rem;
-}
-
-.section-title h2{
-    font-size:2rem;
-}
-
-.nav-links{
-    display:none;
-}
-
-.menu-toggle{
-    display:block;
-}
-
-.metrics-grid,
-.features-grid,
-.services-grid,
-.process-grid,
-.gallery-grid,
-.office-grid{
-    grid-template-columns:1fr;
-}
-
-.footer-grid{
-    grid-template-columns:1fr;
-}
-
-.hero-buttons{
-    flex-direction:column;
-}
-
-.btn{
-    width:100%;
-}
-
-.testimonial-card{
-    min-width:100%;
-}
-
-.hero-card{
-    position:static;
-    margin-top:20px;
-}
-
-}
-
-/* ==========================================
-   SMALL MOBILE
-========================================== */
-
-@media(max-width:480px){
-
-.hero-content h1{
-    font-size:2rem;
-}
-
-.metric-card h3{
-    font-size:1.8rem;
-}
-
-.section-title h2{
-    font-size:1.8rem;
-}
-
-}
-
-/* MOBILE FIX */
-
-@media (max-width:768px){
+@media screen and (max-width: 992px){
 
 .navbar{
 flex-wrap:wrap;
+gap:15px;
 }
 
 .nav-links{
 width:100%;
+justify-content:center;
+flex-wrap:wrap;
+gap:15px;
+}
+
+.hero-wrapper{
+flex-direction:column;
+text-align:center;
+}
+
+.hero-content{
+max-width:100%;
+}
+
+.hero-image{
+order:-1;
+margin-bottom:30px;
+}
+
+.hero-buttons{
+justify-content:center;
+}
+
+.services-grid,
+.features-grid,
+.metrics-grid,
+.gallery-grid,
+.contact-grid,
+.footer-grid{
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+}
+
+}
+
+@media screen and (max-width: 768px){
+
+.container{
+padding-left:20px;
+padding-right:20px;
+}
+
+.hero{
+padding-top:120px;
+padding-bottom:60px;
+}
+
+.hero h1{
+font-size:2rem;
+line-height:1.2;
+}
+
+.hero p{
+font-size:1rem;
+}
+
+.hero-buttons{
+flex-direction:column;
+gap:12px;
+}
+
+.hero-buttons .btn{
+width:100%;
+}
+
+.btn{
+width:100%;
+text-align:center;
+}
+
+.profile-badge-card{
+left:10px;
+right:10px;
+bottom:10px;
+padding:12px;
+}
+
+.profile-badge-name{
+font-size:.9rem;
+}
+
+.profile-badge-title{
+font-size:.75rem;
+}
+
+.services-grid,
+.features-grid,
+.metrics-grid,
+.gallery-grid,
+.contact-grid,
+.footer-grid{
+grid-template-columns:1fr;
+}
+
+.nav-links{
 display:flex;
 flex-direction:column;
-gap:15px;
-margin-top:20px;
+width:100%;
+gap:12px;
+padding-top:15px;
 }
 
 .nav-links li{
@@ -1181,43 +1201,78 @@ width:100%;
 text-align:center;
 }
 
+.section{
+padding:60px 0;
 }
 
-@media(max-width:768px){
-
-.hero-wrapper{
-flex-direction:column;
+.contact-card,
+.service-card,
+.feature-card,
+.testimonial-card{
+padding:20px;
 }
 
-.hero-image{
-order:-1;
-margin-bottom:20px;
+iframe{
+height:700px;
 }
 
-.hero-content{
+}
+
+@media screen and (max-width:576px){
+
+.hero h1{
+font-size:1.8rem;
+}
+
+.hero-badges{
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.hero-badges span{
+font-size:.75rem;
+}
+
+.section-title h2{
+font-size:1.7rem;
+}
+
+.profile-photo-wrap{
+aspect-ratio:3/4;
+}
+
+.footer{
 text-align:center;
 }
 
-.hero-buttons{
-flex-direction:column;
-}
-
-.hero-buttons .btn{
-width:100%;
+.footer-grid{
+gap:30px;
 }
 
 }
 
-@media(max-width:768px){
+@media screen and (max-width:420px){
 
-.services-grid,
-.features-grid,
-.metrics-grid,
-.gallery-grid,
-.contact-grid{
+.hero h1{
+font-size:1.6rem;
+}
 
-grid-template-columns:1fr;
+.hero p{
+font-size:.95rem;
+}
 
+.section-title h2{
+font-size:1.5rem;
+}
+
+.btn{
+padding:14px;
+font-size:14px;
+}
+
+.profile-badge-card{
+padding:10px;
 }
 
 }
+
