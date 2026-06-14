@@ -1159,3 +1159,26 @@ textarea.form-control{
 }
 
 }
+
+/* MOBILE FIX */
+
+@media (max-width:768px){
+
+.navbar{
+flex-wrap:wrap;
+}
+
+.nav-links{
+width:100%;
+display:flex;
+flex-direction:column;
+gap:15px;
+margin-top:20px;
+}
+
+.nav-links li{
+width:100%;
+text-align:center;
+}
+
+}
