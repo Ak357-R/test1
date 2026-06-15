@@ -343,3 +343,178 @@ behavior: "smooth"
 console.log(
 "Kadrolli Financial Services Website Loaded Successfully"
 );
+
+/* ==========================================
+   GROWW STYLE SIP CALCULATOR
+========================================== */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const sipAmount =
+document.getElementById("sipAmount");
+
+const sipRate =
+document.getElementById("sipRate");
+
+const sipYears =
+document.getElementById("sipYears");
+
+if(!sipAmount || !sipRate || !sipYears){
+return;
+}
+
+const sipAmountText =
+document.getElementById("sipAmountText");
+
+const sipRateText =
+document.getElementById("sipRateText");
+
+const sipYearsText =
+document.getElementById("sipYearsText");
+
+const investedAmount =
+document.getElementById("investedAmount");
+
+const estimatedReturns =
+document.getElementById("estimatedReturns");
+
+const totalValue =
+document.getElementById("totalValue");
+
+/* Indian Currency */
+
+function formatIndianCurrency(num){
+
+return "₹" +
+Math.round(num)
+.toLocaleString("en-IN");
+
+}
+
+/* Chart */
+
+const ctx =
+document.getElementById("sipChart");
+
+let sipChart;
+
+function calculateSIP(){
+
+const P =
+parseFloat(sipAmount.value);
+
+const annualRate =
+parseFloat(sipRate.value);
+
+const years =
+parseFloat(sipYears.value);
+
+const i =
+annualRate / 12 / 100;
+
+const n =
+years * 12;
+
+const FV =
+P *
+(
+(
+Math.pow(1+i,n)-1
+)/i
+)
+*
+(1+i);
+
+const invested =
+P * n;
+
+const returns =
+FV - invested;
+
+/* Update Labels */
+
+sipAmountText.innerText =
+P.toLocaleString("en-IN");
+
+sipRateText.innerText =
+annualRate;
+
+sipYearsText.innerText =
+years;
+
+investedAmount.innerText =
+formatIndianCurrency(invested);
+
+estimatedReturns.innerText =
+formatIndianCurrency(returns);
+
+totalValue.innerText =
+formatIndianCurrency(FV);
+
+/* Chart */
+
+if(sipChart){
+sipChart.destroy();
+}
+
+sipChart =
+new Chart(ctx,{
+
+type:"doughnut",
+
+data:{
+
+labels:[
+"Invested Amount",
+"Estimated Returns"
+],
+
+datasets:[{
+
+data:[
+invested,
+returns
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+position:"bottom"
+
+}
+
+}
+
+}
+
+});
+
+}
+
+calculateSIP();
+
+sipAmount.addEventListener(
+"input",
+calculateSIP
+);
+
+sipRate.addEventListener(
+"input",
+calculateSIP
+);
+
+sipYears.addEventListener(
+"input",
+calculateSIP
+);
+
+});
